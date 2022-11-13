@@ -4,6 +4,10 @@ namespace CloudWeather.Precipitation.Data
 {
     public class PrecipitationDbContext : DbContext
     {
+        public PrecipitationDbContext()
+        {
+        }
+
         public PrecipitationDbContext(DbContextOptions<PrecipitationDbContext> options) : base(options)
         {
         }
@@ -14,7 +18,6 @@ namespace CloudWeather.Precipitation.Data
         {
             base.OnModelCreating(modelBuilder);
             SnakeCaseIdentityTables(modelBuilder);
-
         }
 
         private static void SnakeCaseIdentityTables(ModelBuilder modelBuilder)

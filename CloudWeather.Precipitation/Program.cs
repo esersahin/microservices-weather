@@ -8,7 +8,7 @@ builder.Services.AddDbContext<PrecipitationDbContext>(options =>
 {
     options.EnableSensitiveDataLogging();
     options.EnableDetailedErrors();
-    options.UseNpgsql(builder.Configuration.GetConnectionString("PrecipitationDb"));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("AppDb"));
 }, ServiceLifetime.Transient);
 
 var app = builder.Build();
@@ -28,7 +28,18 @@ app.MapGet("/observation/{zip}", async (string zip, [FromQuery] int? days, Preci
         .ToListAsync();
 
     return Results.Ok(results);
+});
 
+app.MapPost("/observation", async (Precipitation observation, PrecipitationDbContext db) =>
+{
+    observation.Id = Guid.NewGuid();
+    //observation.CreatedOn = observation.CreatedOn.ToUniversalTime();
+    observation.CreatedOn = DateTime.UtcNow;
+
+    db.Precipitations.Add(observation);
+    await db.SaveChangesAsync();
+
+    return Results.Created($"/observation/{observation.ZipCode}", observation);
 });
 
 app.Run();
