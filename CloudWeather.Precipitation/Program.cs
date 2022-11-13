@@ -1,17 +1,34 @@
+using CloudWeather.Precipitation.Data;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddDbContext<PrecipitationDbContext>(options =>
+{
+    options.EnableSensitiveDataLogging();
+    options.EnableDetailedErrors();
+    options.UseNpgsql(builder.Configuration.GetConnectionString("PrecipitationDb"));
+}, ServiceLifetime.Transient);
+
 var app = builder.Build();
 
-app.MapGet("/observation/{zip}", (string zip,[FromQuery] int? days) =>
+app.MapGet("/observation/{zip}", async (string zip, [FromQuery] int? days, PrecipitationDbContext db) =>
 {
-    return Results.Ok(zip);
-    // var observation = new Observation();
-    // observation.Zip = zip;
-    // observation.Temperature = 70;
-    // observation.Precipitation = 0.0;
-    // return observation;
+    //return Results.Ok(zip);
+
+    if (days is null || days < 1 || days > 30)
+    {
+        return Results.BadRequest("Please provide a days query parameter between 1 and 30");
+    }
+
+    var startData = DateTime.UtcNow - TimeSpan.FromDays(days.Value);
+    var results = await db.Precipitations.Where(p => p.ZipCode == zip && p.CreatedOn >= startData)
+        .OrderByDescending(p => p.CreatedOn)
+        .ToListAsync();
+
+    return Results.Ok(results);
+
 });
 
 app.Run();
