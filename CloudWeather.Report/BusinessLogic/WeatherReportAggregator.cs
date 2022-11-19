@@ -81,13 +81,13 @@ namespace CloudWeather.Report.BusinessLogic
 
         private static decimal GetTotalSnow(IEnumerable<PrecipitationModel> precipData)
         {
-            var totalSnow = precipData.Where(p => p.WeatherType == "snow").Sum(p => p.AmountInches);
+            var totalSnow = precipData.Where(p => p.WeatherType == "Snow").Sum(p => p.AmountInches);
             return Math.Round(totalSnow, 1);
         }
 
         private static decimal GetTotalRain(IEnumerable<PrecipitationModel> precipData)
         {
-            var totalRain = precipData.Where(p => p.WeatherType == "rain").Sum(p => p.AmountInches);
+            var totalRain = precipData.Where(p => p.WeatherType == "Rain").Sum(p => p.AmountInches);
             return Math.Round(totalRain, 1);
         }
 
