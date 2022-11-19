@@ -6,9 +6,13 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+builder.Configuration.AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: true);
+
+
 builder.Services.AddHttpClient();
-builder.Services.AddTransient<IWeatherReportAggregator, WeatherReportAggregator>();
-builder.Services.AddOptions<WeatherDataConfiguration>().Bind(builder.Configuration.GetSection("WeatherDataConfig"));
+builder.Services.AddOptions<WeatherDataConfigurationOptions>().Bind(builder.Configuration.GetSection("WeatherDataConfigurationOptions"));
+
 
 builder.Services.AddDbContext<WeatherReportDbContext>(options =>
 {
@@ -16,6 +20,9 @@ builder.Services.AddDbContext<WeatherReportDbContext>(options =>
     options.EnableDetailedErrors();
     options.UseNpgsql(builder.Configuration.GetConnectionString("AppDb"));
 }, ServiceLifetime.Transient);
+
+builder.Services.AddTransient<IWeatherReportAggregator, WeatherReportAggregator>();
+
 
 var app = builder.Build();
 

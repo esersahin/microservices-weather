@@ -1,6 +1,6 @@
 namespace CloudWeather.Report.Config
 {
-    public class WeatherDataConfiguration
+    public class WeatherDataConfigurationOptions
     {
         public string PrecipitationDataProtocol { get; set; }
         public string PrecipitationDataHost { get; set; }

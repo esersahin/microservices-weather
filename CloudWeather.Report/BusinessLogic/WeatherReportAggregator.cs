@@ -2,6 +2,7 @@ using System.Text.Json;
 using CloudWeather.Report.Config;
 using CloudWeather.Report.DataAccess;
 using CloudWeather.Report.Models;
+using Microsoft.Extensions.Options;
 
 namespace CloudWeather.Report.BusinessLogic
 {
@@ -14,7 +15,7 @@ namespace CloudWeather.Report.BusinessLogic
     {
         private readonly IHttpClientFactory _http;
         private readonly ILogger<WeatherReportAggregator> _logger;
-        private readonly WeatherDataConfiguration _weatherDataConfiguration;
+        private readonly WeatherDataConfigurationOptions _weatherDataConfiguration;
         private readonly WeatherReportDbContext _weatherReportDbContext;
 
         private static JsonSerializerOptions _jsonSerializerOptions = new JsonSerializerOptions
@@ -27,13 +28,13 @@ namespace CloudWeather.Report.BusinessLogic
         (
             IHttpClientFactory http,
             ILogger<WeatherReportAggregator> logger,
-            WeatherDataConfiguration weatherDataConfiguration,
+            IOptions<WeatherDataConfigurationOptions> weatherDataConfiguration,
             WeatherReportDbContext weatherReportDbContext
         )
         {
             _http = http;
             _logger = logger;
-            _weatherDataConfiguration = weatherDataConfiguration;
+            _weatherDataConfiguration = weatherDataConfiguration.Value;
             _weatherReportDbContext = weatherReportDbContext;
         }
 
@@ -121,12 +122,12 @@ namespace CloudWeather.Report.BusinessLogic
 
         private string BuildTemperatureServiceEndpoint(string zipCode, int days)
         {
-            return $"{_weatherDataConfiguration.TemperatureDataProtocol}://{_weatherDataConfiguration.TemperatureDataHost}:{_weatherDataConfiguration.TemperatureDataPort}/{_weatherDataConfiguration.TemperatureDataPath}?zipCode={zipCode}&days={days}";
+            return $"{_weatherDataConfiguration.TemperatureDataProtocol}://{_weatherDataConfiguration.TemperatureDataHost}:{_weatherDataConfiguration.TemperatureDataPort}/{_weatherDataConfiguration.TemperatureDataPath}/{zipCode}?days={days}";
         }
 
         private string BuildPrecipitationServiceEndpoint(string zipCode, int days)
         {
-            return $"{_weatherDataConfiguration.PrecipitationDataProtocol}://{_weatherDataConfiguration.PrecipitationDataHost}:{_weatherDataConfiguration.PrecipitationDataPort}/{_weatherDataConfiguration.PrecipitationDataPath}?zipCode={zipCode}&days={days}";
+            return $"{_weatherDataConfiguration.PrecipitationDataProtocol}://{_weatherDataConfiguration.PrecipitationDataHost}:{_weatherDataConfiguration.PrecipitationDataPort}/{_weatherDataConfiguration.PrecipitationDataPath}/{zipCode}?days={days}";
         }
 
     }

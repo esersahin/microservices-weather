@@ -8,11 +8,61 @@
             "name": "CloudWeather.Precipitation",
             "type": "coreclr",
             "request": "launch",
-            "preLaunchTask": "build",
+            "preLaunchTask": "buildPrecipitation",
             // If you have changed target frameworks, make sure to update the program path.
             "program": "${workspaceFolder}/CloudWeather.Precipitation/bin/Debug/net6.0/CloudWeather.Precipitation.dll",
             "args": [],
             "cwd": "${workspaceFolder}/CloudWeather.Precipitation",
+            "stopAtEntry": false,
+            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+            // "serverReadyAction": {
+            //     "action": "openExternally",
+            //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            // },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            // Use IntelliSense to find out which attributes exist for C# debugging
+            // Use hover for the description of the existing attributes
+            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+            "name": "CloudWeather.Report",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "buildReport",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/CloudWeather.Report/bin/Debug/net6.0/CloudWeather.Report.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/CloudWeather.Report",
+            "stopAtEntry": false,
+            // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
+            // "serverReadyAction": {
+            //     "action": "openExternally",
+            //     "pattern": "\\bNow listening on:\\s+(https?://\\S+)"
+            // },
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
+            "sourceFileMap": {
+                "/Views": "${workspaceFolder}/Views"
+            }
+        },
+        {
+            // Use IntelliSense to find out which attributes exist for C# debugging
+            // Use hover for the description of the existing attributes
+            // For further information visit https://github.com/OmniSharp/omnisharp-vscode/blob/master/debugger-launchjson.md
+            "name": "CloudWeather.DataLoader",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            // If you have changed target frameworks, make sure to update the program path.
+            "program": "${workspaceFolder}/CloudWeather.DataLoader/bin/Debug/net7.0/CloudWeather.DataLoader.dll",
+            "args": [],
+            "cwd": "${workspaceFolder}/CloudWeather.DataLoader",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             // "serverReadyAction": {

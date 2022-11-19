@@ -37,7 +37,7 @@ precipitationHttpClient.BaseAddress = new Uri($"http://{precipServiceHost}:{prec
 foreach (var zip in zipCodes)
 {
     Console.WriteLine($"Processing zip code: {zip}");
-    var from = DateTime.Now.AddDays(-2);
+    var from = DateTime.Now.AddYears(-2);
     var thru = DateTime.Now;
 
     for (var day = from.Date; day.Date <= thru.Date; day = day.AddDays(1))
